@@ -1,0 +1,96 @@
+{
+  "name": "pasttaga/sonata-test",
+  "description": "Test sonata",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "David Gaillard-Felix",
+      "email": "gaillard.felix@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "App\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "doctrine/annotations": "^1.8",
+    "doctrine/collections": "^1.6",
+    "doctrine/common": "^3.0",
+    "doctrine/doctrine-bundle": "^2.4",
+    "doctrine/doctrine-migrations-bundle": "^2.2",
+    "doctrine/orm": "^2.7",
+    "sonata-project/admin-bundle": "^4.0",
+    "sonata-project/doctrine-extensions": "^1.4",
+    "sonata-project/doctrine-orm-admin-bundle": "^4.0",
+    "sonata-project/form-extensions": "^1.7",
+    "symfony/cache": "^5.3",
+    "symfony/config": "^5.3",
+    "symfony/contracts": "^1.1",
+    "symfony/dependency-injection": "^5.3",
+    "symfony/dotenv": "^5.3",
+    "symfony/flex": "^1.11",
+    "symfony/framework-bundle": "^5.3",
+    "symfony/http-foundation": "^5.3",
+    "symfony/http-kernel": "^5.3",
+    "symfony/routing": "^5.3",
+    "symfony/runtime": "^5.3",
+    "symfony/security-bundle": "^5.3",
+    "symfony/templating": "^5.3",
+    "symfony/twig-bundle": "^5.3",
+    "symfony/yaml": "^5.3",
+    "twig/twig": "^2.12"
+  },
+  "require-dev": {
+    "symfony/debug-bundle": "^5.3",
+    "symfony/web-profiler-bundle": "^5.3"
+  },
+  "conflict": {
+    "symfony/symfony": "*"
+  },
+  "scripts": {
+    "symfony-scripts": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+    ],
+    "post-install-cmd": [
+      "@symfony-scripts",
+      "@auto-scripts"
+    ],
+    "post-update-cmd": [
+      "@symfony-scripts",
+      "@auto-scripts"
+    ],
+    "auto-scripts": {
+      "cache:clear": "symfony-cmd",
+      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "symfony-app-dir": "bin",
+    "symfony-bin-dir": "bin",
+    "symfony-var-dir": "var",
+    "symfony-web-dir": "public",
+    "symfony-tests-dir": "tests",
+    "symfony-assets-install": "relative",
+    "incenteev-parameters": {
+      "file": "config/parameters.yml"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packagist.org"
+    },
+    { "packagist": false }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

@@ -1,0 +1,61 @@
+version: '3.7'
+
+services:
+  webserver:
+      volumes:
+          # Synchronize time between host and container
+          - /etc/localtime:/etc/localtime:ro
+      ports:
+          - 80:80
+          - 443:443
+
+  php:
+      build:
+          args:
+              # Create a user with the same ids and names as your host user so
+              # you can use it to run commands in the container. Using the "id"
+              # command will give you the required information:
+              #
+              #   $ id
+              #   uid=1000(johndoe) gid=1000(johndoe) groupes=1000(johndoe)
+              #
+              DOCKER_RUN_USER_ID: 1000 # replace with your user id (most likely 1000)
+              DOCKER_RUN_USER_NAME: johndoe # replace with your user name
+              DOCKER_RUN_GROUP_ID: 1000 # replace with your group id (most likely 1000)
+              DOCKER_RUN_GROUP_NAME: johndoe # replace with your group name
+      user: 1000:1000 # replace with your user and group ids (most likely 1000:1000)
+      volumes:
+          # Synchronize time between host and container
+          - /etc/localtime:/etc/localtime:ro
+          # Let the container know your SSH keys
+          - /home/johndoe/.ssh:/home/johndoe/.ssh
+          # Share Composer cache
+          - /home/johndoe/.config/composer:/home/johndoe/.composer
+      extra_hosts:
+          # The domain "host.internal.docker" is not available on Linux so we add it manually.
+          # This is required if you want to use Xdebug.
+          #
+          # You should be able to get the Docker host IP address with the following command:
+          #
+          #   ip -4 addr show scope global dev docker0 | grep inet | awk '{print $2}' | cut -d / -f 1
+          #
+          - host.docker.internal:172.17.0.1
+      environment:
+          # Always enable Xdebug for PHP-FPM (slows down PHP execution).
+          PHP_FPM_XDEBUG: 1
+
+          # Force the server configuration matched by PhpStorm.
+          #
+          # This is mostly useful for PHP CLI as there is no hostname to match
+          # against, but this also applies to PHP-FPM.
+          PHP_IDE_CONFIG: serverName=docker-sonata-test.com
+
+     database:
+        volumes:
+            # Persist data when removing the container
+            - database-data:/var/lib/mysql
+            # Synchronize time between host and container
+            - /etc/localtime:/etc/localtime:ro
+
+volumes:
+    database-data: {}

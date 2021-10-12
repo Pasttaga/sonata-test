@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  webserver:
+    build: docker/webserver
+    volumes:
+      - ./:/app
+    depends_on:
+      - php
+    networks:
+      default:
+        aliases:
+          - www.local.sonata-test.com
+
+  php:
+    build: docker/php
+    working_dir: /app
+    volumes:
+      - .:/app
+    depends_on:
+      - database
+
+  database:
+    image: mariadb:10.3.22
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: password
